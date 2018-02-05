@@ -27,6 +27,8 @@ source("~/translationalefficiency/UTRdefs.R")
 source("~/translationalefficiency/GCcontent.R")
 ```
 
+#Translational Efficiency Analysis
+
 ```{r}
 
 tt<-dplyr::select(TE_UTRlength,c(TRANS,LENGTH,ratio))
@@ -86,7 +88,6 @@ levels(dd$bins)<-c("-2<x<-1.5","-1.5<x<-1","-1<x<-0.5","-0.5<x<0","0<x<0.5","0.5
 ###############################################################
 
 TE_UTRlength %>% filter(START!=END) %>% dplyr::select(TRANS,ratio,LENGTH) %>% cbind(GC_count=GC_count) -> tt
-tt %>% head()
 tt %>% mutate(tot_GC=GC_count*LENGTH) -> tt_2
 cbind(aggregate(tt_2$tot_GC,list(genes=tt_2$TRANS),sum) ,
       TOT_LENGTH=aggregate(tt_2$LENGTH,list(genes=tt_2$TRANS),sum)[,2],
@@ -110,10 +111,23 @@ ggplot(dd,aes(x=as.factor(bins),y=ave_GC))+geom_boxplot() + theme_bw() +ylab("GC
 
 
 #pdf(file = "~/Documents/Matt/trans_effic/boxplots_GC.pdf",height=12,paper = "a4")
-TEscatt / (TEboxlog10 + coord_flip())
-mermscatt / (mermboxlog10 + coord_flip())
-TEscatt_GC / (TEbox_GC + coord_flip())
+#TEscatt / (TEboxlog10 + coord_flip())
+#mermscatt / (mermboxlog10 + coord_flip())
+#TEscatt_GC / (TEbox_GC + coord_flip())
 #dev.off()
+
+TEscatt
+(TEboxlog10 + coord_flip())
+```
+
+```{r}
+mermscatt
+(mermboxlog10 + coord_flip())
+```
+
+```{r}
+TEscatt_GC
+(TEbox_GC + coord_flip())
 ```
 
 
