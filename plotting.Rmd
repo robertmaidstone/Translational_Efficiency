@@ -23,13 +23,13 @@ knitr::opts_chunk$set(echo = FALSE)
 library(tidyverse)
 library(patchwork)
 
-source("~/translationalefficiency/UTRdefs.R")
-source("~/translationalefficiency/GCcontent.R")
+source("~/Translational_Efficiency/UTRdefs.R")
+source("~/Translational_Efficiency/GCcontent.R")
 ```
 
 #Translational Efficiency Analysis
 
-```{r}
+```{r UTRlength}
 
 tt<-dplyr::select(TE_UTRlength,c(TRANS,LENGTH,ratio))
 cbind(aggregate(tt$LENGTH,list(genes=tt$TRANS),sum) ,RAT=aggregate(tt$ratio,list(genes=tt$TRANS),mean)[,2]) %>%
@@ -66,7 +66,7 @@ dd$bins<-as.factor(dd$bins)
 levels(dd$bins)<-c("-2<x<-1.5","-1.5<x<-1","-1<x<-0.5","-0.5<x<0","0<x<0.5","0.5<x<1","1<x<1.5","1.5<x<2","2<x<2.5","2.5<x<3")[as.numeric(levels(dd$bins))]
   aggregate(dd$RAT,list(bins=dd$bins),length) -> aggdd
   ggplot(dd,aes(x=as.factor(bins),y=x))+geom_boxplot()+theme_bw() +ylab("UTR length (log10(bp))") +
-    xlab("control ratio - merm1 ratio")+ theme(axis.text.x=element_text(angle=45,hjust=1))+
+    xlab("control ratio - merm1 ratio")+ #theme(axis.text.x=element_text(angle=45,hjust=1))+
     geom_text(data=aggdd,aes(x=as.factor(bins),y=4.5,label=x)) -> TEboxlog10
 
 
@@ -82,7 +82,7 @@ levels(dd$bins)<-c("-2<x<-1.5","-1.5<x<-1","-1<x<-0.5","-0.5<x<0","0<x<0.5","0.5
   levels(dd$bins)<-c("-5<x<-4.5","-4.5<x<-4","-4<x<-3.5","-3.5<x<-3","-3<x<-2.5","-2.5<x<-2","-2<x<-1.5","-1.5<x<-1","-1<x<-0.5","-0.5<x<0","0<x<0.5","0.5<x<1","1<x<1.5","1.5<x<2","2<x<2.5","2.5<x<3")[as.numeric(levels(dd$bins))]
   aggregate(dd$RAT,list(bins=dd$bins),length) -> aggdd
   ggplot(dd,aes(x=as.factor(bins),y=x))+geom_boxplot() +theme_bw() +ylab("UTR length (log10(bp))") +
-    xlab("merm1 ratio")+ theme(axis.text.x=element_text(angle=45,hjust=1))+
+    xlab("merm1 ratio")+# theme(axis.text.x=element_text(angle=45,hjust=1))+
     geom_text(data=aggdd,aes(x=as.factor(bins),y=4.5,label=x))-> mermboxlog10
 
 ###############################################################
@@ -93,7 +93,7 @@ cbind(aggregate(tt_2$tot_GC,list(genes=tt_2$TRANS),sum) ,
       TOT_LENGTH=aggregate(tt_2$LENGTH,list(genes=tt_2$TRANS),sum)[,2],
       RAT=aggregate(tt_2$ratio,list(genes=tt_2$TRANS),mean)[,2]) %>%
   mutate(ave_GC=x/TOT_LENGTH) %>%
-  ggplot(aes(x=ave_GC,y=RAT))+geom_point(size=0.1,alpha=0.5)+theme_bw()+
+  ggplot(aes(x=ave_GC*100,y=RAT))+geom_point(size=0.1,alpha=0.5)+theme_bw()+
   ylab("control ratio - merm1 ratio") + xlab("GC content (%)")->TEscatt_GC
 
 
@@ -105,9 +105,10 @@ cbind(aggregate(tt_2$tot_GC,list(genes=tt_2$TRANS),sum) ,
 dd$bins<-as.factor(dd$bins)
 levels(dd$bins)<-c("-2<x<-1.5","-1.5<x<-1","-1<x<-0.5","-0.5<x<0","0<x<0.5","0.5<x<1","1<x<1.5","1.5<x<2","2<x<2.5","2.5<x<3")[as.numeric(levels(dd$bins))]
 aggregate(dd$ave_GC,list(bins=dd$bins),length) -> aggdd
-ggplot(dd,aes(x=as.factor(bins),y=ave_GC))+geom_boxplot() + theme_bw() +ylab("GC content (%)") +
-  xlab("control ratio - merm1 ratio")+ theme(axis.text.x=element_text(angle=45,hjust=1))+
-  geom_text(data=aggdd,aes(x=as.factor(bins),y=1.2,label=x))  -> TEbox_GC
+ggplot(dd,aes(x=as.factor(bins),y=ave_GC*100))+geom_boxplot() + theme_bw() +ylab("GC content (%)") +
+  xlab("control ratio - merm1 ratio")+ #theme(axis.text.x=element_text(angle=45,hjust=1))+
+  geom_text(data=aggdd,aes(x=as.factor(bins),y=120,label=x)) +
+  scale_y_continuous(breaks=c(0,25,50,75,100)) -> TEbox_GC
 
 
 #pdf(file = "~/Documents/Matt/trans_effic/boxplots_GC.pdf",height=12,paper = "a4")
@@ -120,12 +121,12 @@ TEscatt
 (TEboxlog10 + coord_flip())
 ```
 
-```{r}
+```{r UTRlengthmermonly}
 mermscatt
 (mermboxlog10 + coord_flip())
 ```
 
-```{r}
+```{r GCcontent}
 TEscatt_GC
 (TEbox_GC + coord_flip())
 ```
