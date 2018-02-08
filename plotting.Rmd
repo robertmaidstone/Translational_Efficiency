@@ -33,17 +33,17 @@ source("~/Translational_Efficiency/GCcontent.R")
 
 tt<-dplyr::select(TE_UTRlength,c(TRANS,LENGTH,ratio))
 cbind(aggregate(tt$LENGTH,list(genes=tt$TRANS),sum) ,RAT=aggregate(tt$ratio,list(genes=tt$TRANS),mean)[,2]) %>%
-  ggplot(aes(x=x,y=RAT))+geom_point(size=.1,alpha=.5)+theme_bw()+ylab("control ratio - merm1 ratio") + xlab("UTR length (bp)")->TEratio_plot
+  ggplot(aes(x=x,y=RAT))+geom_point(size=.1,alpha=.5)+theme_bw()+ylab("Control ratio - BUD23 ratio") + xlab("UTR length (bp)")->TEratio_plot
 
 
 tt<-dplyr::select(TE_UTRlength,c(TRANS,LENGTH,con_ratio))
 cbind(aggregate(tt$LENGTH,list(genes=tt$TRANS),sum) ,RAT=aggregate(tt$con_ratio,list(genes=tt$TRANS),mean)[,2]) %>%
-  ggplot(aes(x=x,y=RAT))+geom_point(size=0.1,alpha=0.5)+theme_bw()+ylab("control ratio") + xlab("UTR length (bp)") -> conratio_plot
+  ggplot(aes(x=x,y=RAT))+geom_point(size=0.1,alpha=0.5)+theme_bw()+ylab("Control ratio") + xlab("UTR length (bp)") -> conratio_plot
 
 
 tt<-dplyr::select(TE_UTRlength,c(TRANS,LENGTH,merm1_ratio))
 cbind(aggregate(tt$LENGTH,list(genes=tt$TRANS),sum) ,RAT=aggregate(tt$merm1_ratio,list(genes=tt$TRANS),mean)[,2]) %>%
-  ggplot(aes(x=x,y=RAT))+geom_point(size=0.1,alpha=0.5)+theme_bw()+ylab("merm1 ratio") + xlab("UTR length (bp)") -> merm1ratio_plot
+  ggplot(aes(x=x,y=RAT))+geom_point(size=0.1,alpha=0.5)+theme_bw()+ylab("BUD23 ratio") + xlab("UTR length (bp)") -> merm1ratio_plot
 
 
 #ggsave("~/Documents/Matt/trans_effic/TEratio.pdf",plot = TEratio_plot,width = 6,height = 6)
@@ -55,7 +55,7 @@ cbind(aggregate(tt$LENGTH,list(genes=tt$TRANS),sum) ,RAT=aggregate(tt$merm1_rati
 
 tt<-dplyr::select(TE_UTRlength,c(TRANS,LENGTH,ratio))
 cbind(aggregate(tt$LENGTH,list(genes=tt$TRANS),sum) ,RAT=aggregate(tt$ratio,list(genes=tt$TRANS),mean)[,2]) %>% 
-  ggplot(aes(x=x,y=RAT))+geom_point(size=0.1,alpha=0.5)+theme_bw()+ylab("control ratio - merm1 ratio") + xlab("UTR length (bp)")->TEscatt
+  ggplot(aes(x=x,y=RAT))+geom_point(size=0.1,alpha=0.5)+theme_bw()+ylab("Control ratio - BUD23 ratio") + xlab("UTR length (bp)")->TEscatt
 
 
 cbind(aggregate(tt$LENGTH,list(genes=tt$TRANS),sum) ,RAT=aggregate(tt$ratio,list(genes=tt$TRANS),mean)[,2]) %>%
@@ -66,13 +66,13 @@ dd$bins<-as.factor(dd$bins)
 levels(dd$bins)<-c("-2<x<-1.5","-1.5<x<-1","-1<x<-0.5","-0.5<x<0","0<x<0.5","0.5<x<1","1<x<1.5","1.5<x<2","2<x<2.5","2.5<x<3")[as.numeric(levels(dd$bins))]
   aggregate(dd$RAT,list(bins=dd$bins),length) -> aggdd
   ggplot(dd,aes(x=as.factor(bins),y=x))+geom_boxplot()+theme_bw() +ylab("UTR length (log10(bp))") +
-    xlab("control ratio - merm1 ratio")+ #theme(axis.text.x=element_text(angle=45,hjust=1))+
+    xlab("Control ratio - BUD23 ratio")+ #theme(axis.text.x=element_text(angle=45,hjust=1))+
     geom_text(data=aggdd,aes(x=as.factor(bins),y=4.5,label=x)) -> TEboxlog10
 
 
   tt<-dplyr::select(TE_UTRlength,c(TRANS,LENGTH,merm1_ratio))
   cbind(aggregate(tt$LENGTH,list(genes=tt$TRANS),sum) ,RAT=aggregate(tt$merm1_ratio,list(genes=tt$TRANS),mean)[,2]) %>%
-    ggplot(aes(x=x,y=RAT))+geom_point(size=0.1,alpha=0.5)+theme_bw()+ylab("merm1 ratio") + xlab("UTR length (bp)") ->mermscatt
+    ggplot(aes(x=x,y=RAT))+geom_point(size=0.1,alpha=0.5)+theme_bw()+ylab("BUD23 ratio") + xlab("UTR length (bp)") ->mermscatt
   
   cbind(aggregate(tt$LENGTH,list(genes=tt$TRANS),sum) ,RAT=aggregate(tt$merm1_ratio,list(genes=tt$TRANS),mean)[,2]) %>%
     mutate(bins=.bincode(RAT,c(-5,-4.5,-4,-3.5,-3,-2.5,-2,-1.5,-1,-.5,0,.5,1,1.5,2,2.5,3))) %>%
@@ -82,7 +82,7 @@ levels(dd$bins)<-c("-2<x<-1.5","-1.5<x<-1","-1<x<-0.5","-0.5<x<0","0<x<0.5","0.5
   levels(dd$bins)<-c("-5<x<-4.5","-4.5<x<-4","-4<x<-3.5","-3.5<x<-3","-3<x<-2.5","-2.5<x<-2","-2<x<-1.5","-1.5<x<-1","-1<x<-0.5","-0.5<x<0","0<x<0.5","0.5<x<1","1<x<1.5","1.5<x<2","2<x<2.5","2.5<x<3")[as.numeric(levels(dd$bins))]
   aggregate(dd$RAT,list(bins=dd$bins),length) -> aggdd
   ggplot(dd,aes(x=as.factor(bins),y=x))+geom_boxplot() +theme_bw() +ylab("UTR length (log10(bp))") +
-    xlab("merm1 ratio")+# theme(axis.text.x=element_text(angle=45,hjust=1))+
+    xlab("BUD23 ratio")+# theme(axis.text.x=element_text(angle=45,hjust=1))+
     geom_text(data=aggdd,aes(x=as.factor(bins),y=4.5,label=x))-> mermboxlog10
 
 ###############################################################
@@ -94,19 +94,20 @@ cbind(aggregate(tt_2$tot_GC,list(genes=tt_2$TRANS),sum) ,
       RAT=aggregate(tt_2$ratio,list(genes=tt_2$TRANS),mean)[,2]) %>%
   mutate(ave_GC=x/TOT_LENGTH) %>%
   ggplot(aes(x=ave_GC*100,y=RAT))+geom_point(size=0.1,alpha=0.5)+theme_bw()+
-  ylab("control ratio - merm1 ratio") + xlab("GC content (%)")->TEscatt_GC
+  ylab("Control ratio - BUD23 ratio") + xlab("GC content (%)")->TEscatt_GC
 
 
 cbind(aggregate(tt_2$tot_GC,list(genes=tt_2$TRANS),sum) ,
       TOT_LENGTH=aggregate(tt_2$LENGTH,list(genes=tt_2$TRANS),sum)[,2],
       RAT=aggregate(tt_2$ratio,list(genes=tt_2$TRANS),mean)[,2]) %>%
-  mutate(ave_GC=x/TOT_LENGTH) %>%
+  mutate(ave_GC=x/TOT_LENGTH) -> temp_dat
+temp_dat %>%
   mutate(bins=.bincode(RAT,c(-2,-1.5,-1,-.5,0,.5,1,1.5,2,2.5,3))) -> dd
 dd$bins<-as.factor(dd$bins)
 levels(dd$bins)<-c("-2<x<-1.5","-1.5<x<-1","-1<x<-0.5","-0.5<x<0","0<x<0.5","0.5<x<1","1<x<1.5","1.5<x<2","2<x<2.5","2.5<x<3")[as.numeric(levels(dd$bins))]
 aggregate(dd$ave_GC,list(bins=dd$bins),length) -> aggdd
 ggplot(dd,aes(x=as.factor(bins),y=ave_GC*100))+geom_boxplot() + theme_bw() +ylab("GC content (%)") +
-  xlab("control ratio - merm1 ratio")+ #theme(axis.text.x=element_text(angle=45,hjust=1))+
+  xlab("Control ratio - BUD23 ratio")+ #theme(axis.text.x=element_text(angle=45,hjust=1))+
   geom_text(data=aggdd,aes(x=as.factor(bins),y=120,label=x)) +
   scale_y_continuous(breaks=c(0,25,50,75,100)) -> TEbox_GC
 
@@ -119,6 +120,9 @@ ggplot(dd,aes(x=as.factor(bins),y=ave_GC*100))+geom_boxplot() + theme_bw() +ylab
 
 TEscatt
 (TEboxlog10 + coord_flip())
+
+cor.test(x=temp_dat$RAT,y=temp_dat$TOT_LENGTH,method="pearson")
+cor.test(x=temp_dat$RAT,y=temp_dat$TOT_LENGTH,method="spearman")
 ```
 
 ```{r UTRlengthmermonly}
@@ -129,6 +133,8 @@ mermscatt
 ```{r GCcontent}
 TEscatt_GC
 (TEbox_GC + coord_flip())
+cor.test(x=temp_dat$RAT,y=temp_dat$ave_GC,method="pearson")
+cor.test(x=temp_dat$RAT,y=temp_dat$ave_GC,method="spearman")
 ```
 
 
