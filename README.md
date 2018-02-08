@@ -22,7 +22,7 @@ Calculates the GC content in the UTR regions. Utilised the program `twoBitToFa` 
 
 ## Methods
 
-Translational efficiency (TE) was compared to both the length and GC content of the 5' UTR region. 5' UTRs were defined using the `TxDb.Hsapiens.UCSC.hg38.knownGene` (Bioconductor Core Team and Bioconductor Package Maintainer, 2016) and `org.Hs.eg.db` (Carlson, 2017) R packages. Sequences of the regions were extracted using the `twoBitToFa` program from the BLAT suite (Kent, 2002) and then GC content was calculated using the `seqinr` R package (Charif and Lobry, 2007).
+Translational efficiency (TE) was compared to both the length and GC content of the 5' UTR region. 5' UTRs were defined using the `TxDb.Hsapiens.UCSC.hg38.knownGene` (Bioconductor Core Team and Bioconductor Package Maintainer, 2016) and `org.Hs.eg.db` (Carlson, 2017) R packages. Sequences of the regions were extracted using the `twoBitToFa` program from the BLAT suite (Kent, 2002) and then GC content was calculated using the `seqinr` R package (Charif and Lobry, 2007). The Pearson correlation coeeficients, and their relative significances, were calculated using `cor.test` function from the `stats` R package (R Core Team, 2017).
 
 ### References
 
@@ -33,6 +33,9 @@ Carlson, M. (2017). org.Hs.eg.db: Genome wide annotation for Human. R package ve
 Charif, D. and Lobry, J.R. (2007). SeqinR: Biological sequences retrieval and analysis. R package version 3.4.5.
   
 Kent W.J. (2002). BLAT - the BLAST-like alignment tool. Genome Research, 12(4):656-64.
+
+R Core Team (2017). R: A language and environment for statistical computing. R Foundation for Statistical Computing, Vienna,
+  Austria. URL https://www.R-project.org/.
 
 
   
