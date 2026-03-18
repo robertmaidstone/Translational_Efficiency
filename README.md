@@ -6,6 +6,8 @@
 
 Code for analysing translational efficiency (TE) data collected by Dr Matthew Baxter from the University of Manchester. Compares TE to the 5' UTR length and GC content percentage.
 
+Results published in [Cardiac mitochondrial function depends on BUD23 mediated ribosome programming. Baxter et al., Elife, 2020](https://pubmed.ncbi.nlm.nih.gov/31939735/)
+
 ### plotting.Rmd
 
 Code for plotting graphs of translational efficiency against UTR length and GC content. Sources `UTRdefs.R` and `GC_content.R`. Produces the markdown file (and related pngs) `plotting.md`.
